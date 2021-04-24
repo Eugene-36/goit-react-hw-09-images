@@ -1,0 +1,8 @@
+.gallery {
+  padding: 5px;
+  margin-left: auto;
+  margin-right: auto;
+  font-size: 13px;
+  display: flex;
+  flex-wrap: wrap;
+}
