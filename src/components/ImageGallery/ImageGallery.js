@@ -12,9 +12,10 @@ export default function ImageGallery(props) {
   const [url, setUrl] = useState("");
 
   const toggleModal = () => {
-    setModal(({ showModal }) => ({
-      showModal: !showModal,
-    }));
+    // setModal(({ showModal }) => ({
+    //   showModal: !showModal,
+    // }));
+    setModal((prevModal) => !prevModal);
   };
 
   const openModal = (modalImage) => {
@@ -22,7 +23,9 @@ export default function ImageGallery(props) {
 
     setModalImage(modalImage);
   };
+  // console.log(props);
   const { images } = props;
+
   console.log(images);
   //const { showModal, modalImage } = setModal;
   return (
