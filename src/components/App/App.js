@@ -14,64 +14,62 @@ import * as API from "../../services/apiImg";
 export default function App() {
   const [images, setImages] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState(null);
+  const [error, setError] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [seachQuery, setSeachQuery] = useState("");
+  const [page, setPage] = useState(1);
 
   useEffect(() => {
-    if (!seachQuery) {
+    if (seachQuery === "") {
       return;
     }
 
-    const fetchImg = (seachQuery) => {
-      setIsLoading(true);
+    fetchImg(seachQuery, page);
+  }, [seachQuery, page]);
 
-      API.getImages(seachQuery, currentPage)
-        .then((responseData) => {
-          setImages((prevImg) => [...prevImg, ...responseData.data.hits]);
-          setCurrentPage((prevCurrentPage) => prevCurrentPage + 1);
-          window.scrollTo({
-            top: document.documentElement.scrollHeight,
-            behavior: "smooth",
-          });
-        })
-        .catch((error) => setError(true))
-        .finally(() => {
-          setIsLoading(false);
+  const fetchImg = (seachQuery, page) => {
+    setIsLoading(true);
+
+    API.getImages(seachQuery, page)
+      .then((responseData) => {
+        // console.log(responseData);
+        setImages((prevImg) => [...prevImg, ...responseData.data.hits]);
+        setCurrentPage((prevCurrentPage) => prevCurrentPage + 1);
+        window.scrollTo({
+          top: document.documentElement.scrollHeight,
+          behavior: "smooth",
         });
-    };
+      })
+      .catch((error) => setError(true))
+      .finally(() => {
+        setIsLoading(false);
+      });
+  };
 
-    fetchImg(seachQuery);
-  }, [currentPage, seachQuery]);
-
-  const updatePage = useCallback(() => {
-    setCurrentPage((prevPage) => prevPage + 1);
-  }, []);
-
+  const incrementPage = () => {
+    setPage((prevPage) => prevPage + 1);
+  };
+  console.log(incrementPage);
   const onChangeQuery = useCallback((seachQuery) => {
     setSeachQuery(seachQuery);
     setIsLoading(true);
-    setCurrentPage(1);
+    setPage(1);
     setImages([]);
     setError(null);
   }, []);
   const shouldRenderLoadMoreButton = images.length > 11 && !isLoading;
-  //console.log(images);
-  // const { items } = images;
-  // console.log(images.images);
+  console.log(images.length);
+
   return (
     <div className={s.container}>
       <SearchBar onSubmit={onChangeQuery} />
-      {error && <h1>No image found</h1>}{" "}
-      {/* {isLoading ? <Loader /> : <ImageGallery images={images} />}
-//         {shouldRenderLoadMoreButton && <Button onClick={this.fetchImg} />} */}
-      {isLoading && <Loader />}
+      {error && <h1>No image found</h1>} {isLoading && <Loader />}
       {!isLoading && <ImageGallery images={images} />}
-      {shouldRenderLoadMoreButton && <Button onClick={updatePage} />}{" "}
+      {shouldRenderLoadMoreButton && <Button onClick={incrementPage} />}{" "}
     </div>
   );
 }
-
+//===========================================
 // class App extends Component {
 //   state = {
 //     images: [],

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useCallback } from "react";
 import { useDispatch } from "react-redux";
 // import PropTypes from 'prop-types';
 import ImageGalleryItem from "../ImageGalleryItem/ImageGalleryItem";
@@ -6,27 +6,40 @@ import Modal from "../Modal/Modal";
 import s from "../ImageGallery/ImageGallery.module.css";
 import { v4 as uuidv4 } from "uuid";
 
-export default function ImageGallery(props) {
+export default function ImageGallery({ images }) {
   const [showModal, setModal] = useState(false);
   const [modalImage, setModalImage] = useState("");
   const [url, setUrl] = useState("");
 
-  const toggleModal = () => {
-    // setModal(({ showModal }) => ({
-    //   showModal: !showModal,
-    // }));
-    setModal((prevModal) => !prevModal);
-  };
+  // const toggleModal = () => {
+  //   // setModal(({ showModal }) => ({
+  //   //   showModal: !showModal,
+  //   // }));
+  //   setModal((prevModal) => !prevModal);
+  // };
 
-  const openModal = (modalImage) => {
-    toggleModal();
+  // const openModal = (modalImage) => {
+  //   toggleModal();
 
-    setModalImage(modalImage);
-  };
-  // console.log(props);
-  const { images } = props;
+  //   setModalImage(modalImage);
+  // };
+  // // console.log(props);
+  // const { images } = props;
+  // console.log(images);
 
-  console.log(images);
+  const toggleModal = useCallback(() => {
+    setModal((prevShowModal) => !prevShowModal);
+    setModalImage(null);
+  }, []);
+
+  const openModal = useCallback(
+    (modalImage) => {
+      toggleModal();
+      setModalImage(modalImage);
+    },
+    [toggleModal]
+  );
+
   //const { showModal, modalImage } = setModal;
   return (
     <>
