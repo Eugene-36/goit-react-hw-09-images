@@ -49,7 +49,7 @@ export default function App() {
   const incrementPage = () => {
     setPage((prevPage) => prevPage + 1);
   };
-  console.log(incrementPage);
+
   const onChangeQuery = useCallback((seachQuery) => {
     setSeachQuery(seachQuery);
     setIsLoading(true);
@@ -58,7 +58,6 @@ export default function App() {
     setError(null);
   }, []);
   const shouldRenderLoadMoreButton = images.length > 11 && !isLoading;
-  console.log(images.length);
 
   return (
     <div className={s.container}>

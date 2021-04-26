@@ -11,22 +11,6 @@ export default function ImageGallery({ images }) {
   const [modalImage, setModalImage] = useState("");
   const [url, setUrl] = useState("");
 
-  // const toggleModal = () => {
-  //   // setModal(({ showModal }) => ({
-  //   //   showModal: !showModal,
-  //   // }));
-  //   setModal((prevModal) => !prevModal);
-  // };
-
-  // const openModal = (modalImage) => {
-  //   toggleModal();
-
-  //   setModalImage(modalImage);
-  // };
-  // // console.log(props);
-  // const { images } = props;
-  // console.log(images);
-
   const toggleModal = useCallback(() => {
     setModal((prevShowModal) => !prevShowModal);
     setModalImage(null);
@@ -40,7 +24,6 @@ export default function ImageGallery({ images }) {
     [toggleModal]
   );
 
-  //const { showModal, modalImage } = setModal;
   return (
     <>
       {showModal && (
